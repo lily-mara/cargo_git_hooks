@@ -1,6 +1,6 @@
 [package]
 name = "git_hooks"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Nate Mara <natemara@gmail.com>"]
 build = "build.rs"
 description = "A simple cargo build script to copy a hooks folder into .git/hooks so that your developers are all running the same git hooks"
