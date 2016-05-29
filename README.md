@@ -28,3 +28,11 @@ drwxr-xr-x   4 nm46057  staff  136 May 29 11:59 logs
 drwxr-xr-x  11 nm46057  staff  374 May 29 11:59 objects
 drwxr-xr-x   5 nm46057  staff  170 May 29 12:00 refs
 ```
+
+Security Warning
+===
+
+Commit hooks are arbitrary commands which are run around certain git interactions.
+Blindly accepting git hooks from strangers is a bad idea because it would allow them to do anything within the hook, for example, wiping your entire filesystem or installing malicious software.
+Sharing git hooks is a pattern which should really only be done within a trusted group.
+Forcing git hook use on a public project may receieve ire from the community.
