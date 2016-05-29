@@ -2,7 +2,6 @@ use std::env;
 use std::path::Path;
 use std::os::unix;
 use std::fs;
-use std::io::ErrorKind;
 
 fn main() {
     let manifest_dir = env::var("PWD")
@@ -12,24 +11,20 @@ fn main() {
     let real_path = manifest_path.join(Path::new("hooks"));
     let git_path = manifest_path.join(".git").join("hooks");
 
-    if cfg!(target_family = "unix") {
-        match unix::fs::symlink(&real_path, &git_path) {
-            Ok(_) => {}
-            Err(e) => {
-                if let ErrorKind::AlreadyExists = e.kind() {
-                    fs::remove_file(&git_path).unwrap_or_else(|delete_err| {
-                        panic!("Failed to delete existing git hooks folder: {:?}", delete_err);
-                    });
-                    unix::fs::symlink(&real_path, &git_path)
-                        .unwrap_or_else(|inner_err| {
-                            panic!("Failed to create symlink: {:?}", inner_err);
-                        });
-                } else {
-                    panic!("Failed to create symlink: {:?}", e);
-                }
-            }
-        }
+    if git_path.is_dir() {
+        fs::remove_dir(&git_path).unwrap_or_else(|e| {
+            panic!("Failed to delete existing git hooks folder: {:?}", e);
+        });
+    } else if git_path.is_file() {
+        fs::remove_file(&git_path).unwrap_or_else(|e| {
+            panic!("Failed to delete existing git hooks file: {:?}", e);
+        });
+    }
 
+    if cfg!(target_family = "unix") {
+        unix::fs::symlink(&real_path, &git_path).unwrap_or_else(|why| {
+            panic!("Failed to create symlink {:?}", why.kind());
+        });
     } else {
         panic!("Unsupported on this os");
     }
