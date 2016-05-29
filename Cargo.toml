@@ -5,5 +5,5 @@ authors = ["Nate Mara <natemara@gmail.com>"]
 build = "build.rs"
 description = "A simple cargo build script to copy a hooks folder into .git/hooks so that your developers are all running the same git hooks"
 license = "MIT"
-
-[dependencies]
+repository = "https://github.com/natemara/cargo_git_hooks"
+readme = "README.md"
