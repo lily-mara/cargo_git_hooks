@@ -11,13 +11,13 @@ fn main() {
     let real_path = manifest_path.join(Path::new("hooks"));
     let git_path = manifest_path.join(".git").join("hooks");
 
-    if git_path.is_dir() {
-        fs::remove_dir(&git_path).unwrap_or_else(|e| {
-            panic!("Failed to delete existing git hooks folder: {:?}", e);
-        });
-    } else if git_path.is_file() {
+    if git_path.is_file() {
         fs::remove_file(&git_path).unwrap_or_else(|e| {
             panic!("Failed to delete existing git hooks file: {:?}", e);
+        });
+    } else if git_path.is_dir() {
+        fs::remove_dir_all(&git_path).unwrap_or_else(|e| {
+            panic!("Failed to delete existing git hooks folder: {:?}", e);
         });
     }
 
