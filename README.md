@@ -8,7 +8,7 @@ developers are all using the same git hooks. Requires zero configuration.
 Just do
 
 ``` bash
-$ cargo add --dev git_hooks
+$ cargo add git_hooks
 $ cargo build
 ```
 
